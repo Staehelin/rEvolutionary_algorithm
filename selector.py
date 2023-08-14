@@ -51,14 +51,17 @@ def get_next_generation(current_generation, current_generation_fitness):
 
     # Add TO_NEXT_GEN_CROSSOVER-many crossed over neural nets to next gen
 
-    for _ in range(config.TO_NEXT_GEN_CROSSOVER):
+    for i in range(config.TO_NEXT_GEN_CROSSOVER):
         p1_index = get_parent_index(sorted_values)
         p2_index = get_parent_index(sorted_values)
-        next_gen.append(create_neural_networks.crossover_neural_network(sorted_neural_nets[p1_index], sorted_neural_nets[p2_index]))
+        next_gen.append(create_neural_networks.crossover_neural_network(sorted_neural_nets[p1_index],
+                                                                        sorted_neural_nets[p2_index],
+                                                                        sorted_values[p1_index],
+                                                                        sorted_values[p2_index]))
 
     # Add completely new networks to generation
 
-    for _ in range(config.TO_NEXT_GEN_NEW):
+    for i in range(config.TO_NEXT_GEN_NEW):
         next_gen.append(create_neural_networks.create_new_neural_network())
 
     return next_gen

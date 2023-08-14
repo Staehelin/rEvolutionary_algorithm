@@ -2,9 +2,32 @@ import tensorflow as tf
 import numpy as np
 import config
 
+neural_network_id = 0
+def get_current_generation():
+    return 0
+
+def get_neural_network_id():
+    return neural_network_id
+
+def update_neural_network_id():
+    global neural_network_id
+    neural_network_id += 1
+    print(f"Updating global index to {neural_network_id}")
+
+def save_model(neural_net):
+    neural_net.save(f"./neural_nets/{config.PROJECT_TITLE}/generation_{get_current_generation()}/neural_net_{neural_net.id}")
+
+current_generation = get_current_generation()
+
 
 # Create a new nerual network
-def create_new_neural_network(input_size=config.INPUT_SIZE, hidden_layers=config.HIDDEN_LAYERS, nodes_per_layer=config.NODES_PER_LAYER, output_size=config.OUTPUT_SIZE, activation_hidden=config.ACTIVATION_HIDDEN, activation_output=config.ACTIVATION_OUTPUT):
+def create_new_neural_network(input_size=config.INPUT_SIZE,
+                              hidden_layers=config.HIDDEN_LAYERS,
+                              nodes_per_layer=config.NODES_PER_LAYER,
+                              output_size=config.OUTPUT_SIZE,
+                              activation_hidden=config.ACTIVATION_HIDDEN,
+                              activation_output=config.ACTIVATION_OUTPUT,
+                              save_network=True):
     model = tf.keras.Sequential()
 
     # Input layer
@@ -17,11 +40,16 @@ def create_new_neural_network(input_size=config.INPUT_SIZE, hidden_layers=config
     # Output layer
     model.add(tf.keras.layers.Dense(output_size, activation=activation_output))
 
+    if(save_network == True):
+        model.id = get_neural_network_id()
+        save_model(model)
+        update_neural_network_id()
+
     return model
 
 # Create new child neural network ouf of the weights and biases of both parents according to their fitness evaluations
 def crossover_neural_network(parent1, parent2, fitness1, fitness2, standard=True):
-    new_neural_net = create_new_neural_network()
+    new_neural_net = create_new_neural_network(save_network=False)
     layers_new = new_neural_net.layers
 
     # Create mutation values for mutations (HeUniform for ReLu, GlorotUniform for sigmoid, <- unconfirmed information)
@@ -63,10 +91,14 @@ def crossover_neural_network(parent1, parent2, fitness1, fitness2, standard=True
         print("Not implemented yet, set \"TO_NEXT_GEN_CROSSOVER_MEAN = 0\". This returned just a newly randomly initialized neural network instead.")
         pass
 
-
-
+    new_neural_net.id = get_neural_network_id()
+    print("Saving from crossover")
+    save_model(new_neural_net)
+    update_neural_network_id()
 
     return new_neural_net
+
+
 
 
 

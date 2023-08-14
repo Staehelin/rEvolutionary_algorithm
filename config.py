@@ -36,4 +36,9 @@ TO_NEXT_GEN_NEW = 5
 GENERATIONS = 1000
 
 
+# Meta data config
+
+PROJECT_TITLE = "default"
+META_DATA_FILENAME = 'metadata.txt'
+
 
