@@ -17,6 +17,6 @@ def get_starting_generation():
     else:
         return selector.load_latest_generation()
 
-# Important: The fitness values have to be in the same length and order as the neural networks are!
+# Important: The fitness values have to be the same length and order as the neural networks are!
 def get_next_generation(fitness):
     return selector.get_next_generation(fitness)
