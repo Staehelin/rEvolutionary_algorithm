@@ -15,5 +15,6 @@ if __name__ == '__main__':
 
 ra.initialize()
 ra.get_starting_generation()
-ra.get_next_generation(list(range(60)))
+ra.get_next_generation(list(range(21)))
+ra.get_next_generation(list(range(100, 121)))
 

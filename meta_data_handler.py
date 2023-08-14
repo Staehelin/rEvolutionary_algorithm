@@ -4,6 +4,7 @@ import json
 meta_data = {
     "generation" : 0,
     "generations_list" : [],
+    "generations_fitness_list": [],
     "project_title" : config.PROJECT_TITLE,
     "network_architechture": {
         'input_size': config.INPUT_SIZE,

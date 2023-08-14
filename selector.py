@@ -91,6 +91,7 @@ def get_next_generation(current_generation_fitness):
 
     next_gen_ids = [nn.id for nn in next_gen]
     meta_data_handler.meta_data['generations_list'].append(next_gen_ids)
+    meta_data_handler.meta_data['generations_fitness_list'].append(current_generation_fitness)
     meta_data_handler.save_meta_data()
 
     set_current_generation(next_gen)
