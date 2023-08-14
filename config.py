@@ -2,9 +2,9 @@
 
 # Neural network architecture (based on tensorflow)
 
-INPUT_SIZE = 1
-HIDDEN_LAYERS = 1
-NODES_PER_LAYER = 3
+INPUT_SIZE = 50
+HIDDEN_LAYERS = 7
+NODES_PER_LAYER = 500
 OUTPUT_SIZE = 1
 ACTIVATION_HIDDEN = 'relu'
 ACTIVATION_OUTPUT = 'sigmoid'
@@ -34,6 +34,7 @@ TO_NEXT_GEN_NEW = 5
 # Generational settings
 
 GENERATIONS = 1000
+SAVE_ALL_NEURAL_NETWORKS = False
 
 
 # Meta data config

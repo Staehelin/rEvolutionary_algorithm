@@ -40,6 +40,9 @@ def get_first_generation():
 
 
 def get_next_generation(current_generation, current_generation_fitness):
+    # Updates generation value to current generation value
+    create_neural_networks.update_current_generation()
+
     next_gen = []
 
     sorted_list = sorted(zip(current_generation_fitness, current_generation),reverse=True)
@@ -63,6 +66,8 @@ def get_next_generation(current_generation, current_generation_fitness):
 
     for i in range(config.TO_NEXT_GEN_NEW):
         next_gen.append(create_neural_networks.create_new_neural_network())
+
+
 
     return next_gen
 

@@ -2,9 +2,15 @@ import tensorflow as tf
 import numpy as np
 import config
 
+single_generation_id = 0
 neural_network_id = 0
+current_generation = 0
 def get_current_generation():
-    return 0
+    return current_generation
+
+def update_current_generation():
+    global current_generation
+    current_generation += 1
 
 def get_neural_network_id():
     return neural_network_id
@@ -15,7 +21,14 @@ def update_neural_network_id():
     print(f"Updating global index to {neural_network_id}")
 
 def save_model(neural_net):
-    neural_net.save(f"./neural_nets/{config.PROJECT_TITLE}/generation_{get_current_generation()}/neural_net_{neural_net.id}")
+    # Save all generations of networks
+    if(config.SAVE_ALL_NEURAL_NETWORKS):
+        neural_net.save(f"./neural_nets/{config.PROJECT_TITLE}/generation_{get_current_generation()}/neural_net_{neural_net.id}")
+    # Else just save the latest generation
+    else:
+        global single_generation_id
+        neural_net.save(f"./neural_nets/{config.PROJECT_TITLE}/latest_generation/neural_net_{single_generation_id}")
+        single_generation_id = (single_generation_id + 1) % config.POPULATION_SIZE
 
 current_generation = get_current_generation()
 
