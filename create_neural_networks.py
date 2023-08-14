@@ -1,20 +1,21 @@
 import tensorflow as tf
 import numpy as np
 import config
-import revolutionary_algorithm
+
+import meta_data_handler
 
 single_generation_id = 0
 neural_network_id = 0
-current_generation = revolutionary_algorithm.meta_data['generation']
+current_generation = meta_data_handler.meta_data['generation']
 def get_current_generation():
     global current_generation
-    current_generation = revolutionary_algorithm.meta_data['generation']
+    current_generation = meta_data_handler.meta_data['generation']
     return current_generation
 
 def update_current_generation():
     global current_generation
     current_generation += 1
-    revolutionary_algorithm.meta_data['generation'] = current_generation
+    meta_data_handler.meta_data['generation'] = current_generation
 
 def get_neural_network_id():
     return neural_network_id

@@ -4,9 +4,12 @@ import numpy as np
 import tensorflow as tf
 
 import meta_data_handler
-import revolutionary_algorithm
 
+current_generation = []
 
+def set_current_generation(gen):
+    global current_generation
+    current_generation = gen
 def get_cumulative_sum(sorted_values):
     # 0 required, so that choose_parent_index works properly (starting at index 1)
     cumulative_probablities = [0]
@@ -39,6 +42,8 @@ def load_latest_generation():
     for i in range(config.POPULATION_SIZE):
         current_gen.append(tf.keras.models.load_model(f"./neural_nets/{config.PROJECT_TITLE}/latest_generation/neural_net_{i}"))
 
+    set_current_generation(current_gen)
+
     return current_gen
 
 def get_first_generation():
@@ -46,13 +51,17 @@ def get_first_generation():
     for _ in range(config.POPULATION_SIZE):
         gen.append(create_neural_networks.create_new_neural_network())
 
-    revolutionary_algorithm.meta_data['generations_list'].append(list(range(config.POPULATION_SIZE)))
-    meta_data_handler.save_meta_data(revolutionary_algorithm.meta_data)
+    meta_data_handler.meta_data['generations_list'].append(list(range(config.POPULATION_SIZE)))
+    meta_data_handler.save_meta_data()
+
+    set_current_generation(gen)
 
     return gen
 
 
-def get_next_generation(current_generation, current_generation_fitness):
+def get_next_generation(current_generation_fitness):
+    global current_generation
+
     # Updates generation value to current generation value
     create_neural_networks.update_current_generation()
 
@@ -81,8 +90,10 @@ def get_next_generation(current_generation, current_generation_fitness):
         next_gen.append(create_neural_networks.create_new_neural_network())
 
     next_gen_ids = [nn.id for nn in next_gen]
-    revolutionary_algorithm.meta_data['generations_list'].append(next_gen_ids)
-    meta_data_handler.save_meta_data(revolutionary_algorithm.meta_data)
+    meta_data_handler.meta_data['generations_list'].append(next_gen_ids)
+    meta_data_handler.save_meta_data()
+
+    set_current_generation(next_gen)
 
     return next_gen
 
