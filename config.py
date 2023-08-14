@@ -2,9 +2,9 @@
 
 # Neural network architecture (based on tensorflow)
 
-INPUT_SIZE = 50
-HIDDEN_LAYERS = 7
-NODES_PER_LAYER = 500
+INPUT_SIZE = 1
+HIDDEN_LAYERS = 1
+NODES_PER_LAYER = 3
 OUTPUT_SIZE = 1
 ACTIVATION_HIDDEN = 'relu'
 ACTIVATION_OUTPUT = 'sigmoid'
@@ -40,6 +40,6 @@ SAVE_ALL_NEURAL_NETWORKS = False
 # Meta data config
 
 PROJECT_TITLE = "default"
-META_DATA_FILENAME = 'metadata.txt'
+META_DATA_FILENAME = f'{PROJECT_TITLE}_metadata.txt'
 
 

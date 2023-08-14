@@ -1,25 +1,25 @@
 import config
+import json
 
 
-def save_meta_data(meta_data_dictionary):
-    with open(config.META_DATA_FILENAME, 'w') as f:
-        for key, value in meta_data_dictionary.items():
-            f.write(f'{key}: {value}\n')
+def save_meta_data(metadata):
+    metadata_filename = config.META_DATA_FILENAME
+
+    with open(metadata_filename, 'w') as f:
+        json.dump(metadata, f, indent=4)
+    print("Metadata saved.")
 
 
 def load_meta_data():
     metadata_filename = config.META_DATA_FILENAME
 
-    # Load metadata if the file exists
-    loaded_metadata = {}
     try:
         with open(metadata_filename, 'r') as f:
-            for line in f:
-                key, value = line.strip().split(': ', 1)
-                loaded_metadata[key] = value
+            loaded_metadata = json.load(f)
         print("Metadata loaded.")
+        return loaded_metadata
     except FileNotFoundError:
         print("Metadata file not found.")
 
-    return loaded_metadata
+
 

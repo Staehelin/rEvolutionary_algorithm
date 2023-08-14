@@ -1,6 +1,11 @@
 import config
 import create_neural_networks
 import numpy as np
+import tensorflow as tf
+
+import meta_data_handler
+import revolutionary_algorithm
+
 
 def get_cumulative_sum(sorted_values):
     # 0 required, so that choose_parent_index works properly (starting at index 1)
@@ -29,12 +34,20 @@ def get_parent_index(sorted_values):
     return 0
 
 
+def load_latest_generation():
+    current_gen = []
+    for i in range(config.POPULATION_SIZE):
+        current_gen.append(tf.keras.models.load_model(f"./neural_nets/{config.PROJECT_TITLE}/latest_generation/neural_net_{i}"))
 
+    return current_gen
 
 def get_first_generation():
     gen = []
     for _ in range(config.POPULATION_SIZE):
         gen.append(create_neural_networks.create_new_neural_network())
+
+    revolutionary_algorithm.meta_data['generations_list'].append(list(range(config.POPULATION_SIZE)))
+    meta_data_handler.save_meta_data(revolutionary_algorithm.meta_data)
 
     return gen
 
@@ -67,7 +80,9 @@ def get_next_generation(current_generation, current_generation_fitness):
     for i in range(config.TO_NEXT_GEN_NEW):
         next_gen.append(create_neural_networks.create_new_neural_network())
 
-
+    next_gen_ids = [nn.id for nn in next_gen]
+    revolutionary_algorithm.meta_data['generations_list'].append(next_gen_ids)
+    meta_data_handler.save_meta_data(revolutionary_algorithm.meta_data)
 
     return next_gen
 
