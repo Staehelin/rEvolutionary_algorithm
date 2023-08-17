@@ -1,4 +1,4 @@
-# evolutionary_algorithm_poker
+# evolutionary_algorithm made by Lukas Staehelin
 
 1. Step
    Create evolutionary algorithm with fixed size neural network architechures.
