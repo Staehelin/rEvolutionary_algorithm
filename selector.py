@@ -16,6 +16,10 @@ def get_cumulative_sum(sorted_values):
     cumulative_sum = 0
 
     sum_all_values = sum(sorted_values)
+
+    if(sum_all_values == 0):
+        return np.zeros(len(sorted_values))
+
     sorted_values_probablities = [sorted_value / sum_all_values for sorted_value in sorted_values]
 
     for probability in sorted_values_probablities:
@@ -49,7 +53,7 @@ def load_latest_generation():
 def get_first_generation():
     gen = []
     for _ in range(config.POPULATION_SIZE):
-        gen.append(create_neural_networks.create_new_neural_network())
+        gen.append(create_neural_networks.create_new_neural_network(save_network=True))
 
     meta_data_handler.meta_data['generations_list'].append(list(range(config.POPULATION_SIZE)))
     meta_data_handler.save_meta_data()
@@ -67,7 +71,7 @@ def get_next_generation(current_generation_fitness):
 
     next_gen = []
 
-    sorted_list = sorted(zip(current_generation_fitness, current_generation),reverse=True)
+    sorted_list = sorted(zip(current_generation_fitness, current_generation),key=lambda x: x[0], reverse=True)
 
     sorted_values, sorted_neural_nets = zip(*sorted_list)
 
@@ -91,7 +95,9 @@ def get_next_generation(current_generation_fitness):
 
     next_gen_ids = [nn.id for nn in next_gen]
     meta_data_handler.meta_data['generations_list'].append(next_gen_ids)
+    print(current_generation_fitness)
     meta_data_handler.meta_data['generations_fitness_list'].append(current_generation_fitness)
+    meta_data_handler.meta_data["average_fitness_list"].append(sum(current_generation_fitness) / config.POPULATION_SIZE)
     meta_data_handler.save_meta_data()
 
     set_current_generation(next_gen)

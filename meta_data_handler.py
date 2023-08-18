@@ -1,10 +1,13 @@
 import config
 import json
 
+
 meta_data = {
     "generation" : 0,
     "generations_list" : [],
     "generations_fitness_list": [],
+    "average_fitness_list" : [],
+    'latest_neural_network_id': 0,
     "project_title" : config.PROJECT_TITLE,
     "network_architechture": {
         'input_size': config.INPUT_SIZE,
@@ -33,6 +36,8 @@ def load_meta_data():
         with open(metadata_filename, 'r') as f:
             loaded_metadata = json.load(f)
         print("Metadata loaded.")
+        global meta_data
+        meta_data = loaded_metadata
         return loaded_metadata
     except FileNotFoundError:
         print("Metadata file not found.")

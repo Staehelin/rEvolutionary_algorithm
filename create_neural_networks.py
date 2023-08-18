@@ -5,7 +5,7 @@ import config
 import meta_data_handler
 
 single_generation_id = 0
-neural_network_id = 0
+neural_network_id = meta_data_handler.meta_data['latest_neural_network_id'] if(meta_data_handler.meta_data['latest_neural_network_id'] != None) else 0
 current_generation = meta_data_handler.meta_data['generation']
 def get_current_generation():
     global current_generation
@@ -18,12 +18,18 @@ def update_current_generation():
     meta_data_handler.meta_data['generation'] = current_generation
 
 def get_neural_network_id():
-    return neural_network_id
+    if (meta_data_handler.meta_data['latest_neural_network_id'] != None):
+        id = meta_data_handler.meta_data['latest_neural_network_id']
+        return id
+    else:
+        print("Net id couldn't be loaded -> 0")
+        return 0
 
 def update_neural_network_id():
-    global neural_network_id
+    neural_network_id = get_neural_network_id()
     neural_network_id += 1
-    print(f"Updating global index to {neural_network_id}")
+    meta_data_handler.meta_data['latest_neural_network_id'] = neural_network_id
+    meta_data_handler.save_meta_data()
 
 def save_model(neural_net):
     # Save all generations of networks
@@ -61,6 +67,8 @@ def create_new_neural_network(input_size=config.INPUT_SIZE,
         model.id = get_neural_network_id()
         save_model(model)
         update_neural_network_id()
+        #print(f'Saving neural network with id {model.id}')
+
 
     return model
 
@@ -74,7 +82,9 @@ def crossover_neural_network(parent1, parent2, fitness1, fitness2, standard=True
 
 
     if(standard):
-        p_value = fitness1/(fitness1+fitness2)
+        p_value = 0.5
+        if(fitness1 != fitness2):
+            p_value = fitness1/(fitness1+fitness2) if (fitness1+fitness2) != 0 else 0
 
         layers1 = parent1.layers
         layers2 = parent2.layers
@@ -109,7 +119,7 @@ def crossover_neural_network(parent1, parent2, fitness1, fitness2, standard=True
         pass
 
     new_neural_net.id = get_neural_network_id()
-    print("Saving from crossover")
+    #print(f"Saving from crossover with id {neural_network_id}")
     save_model(new_neural_net)
     update_neural_network_id()
 
