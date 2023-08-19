@@ -37,6 +37,7 @@ def save_model(neural_net):
         neural_net.save(f"./neural_nets/{config.PROJECT_TITLE}/generation_{get_current_generation()}/neural_net_{neural_net.id}")
     # Save the latest generation
     global single_generation_id
+    neural_net.id = single_generation_id
     neural_net.save(f"./neural_nets/{config.PROJECT_TITLE}/latest_generation/neural_net_{single_generation_id}")
     single_generation_id = (single_generation_id + 1) % config.POPULATION_SIZE
 

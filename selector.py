@@ -44,7 +44,10 @@ def get_parent_index(sorted_values):
 def load_latest_generation():
     current_gen = []
     for i in range(config.POPULATION_SIZE):
-        current_gen.append(tf.keras.models.load_model(f"./neural_nets/{config.PROJECT_TITLE}/latest_generation/neural_net_{i}"))
+        model = tf.keras.models.load_model(f"./neural_nets/{config.PROJECT_TITLE}/latest_generation/neural_net_{i}")
+        model.id = -1
+        current_gen.append(model)
+
 
     set_current_generation(current_gen)
 
@@ -92,6 +95,7 @@ def get_next_generation(current_generation_fitness):
 
     for i in range(config.TO_NEXT_GEN_NEW):
         next_gen.append(create_neural_networks.create_new_neural_network())
+
 
     next_gen_ids = [nn.id for nn in next_gen]
     meta_data_handler.meta_data['generations_list'].append(next_gen_ids)

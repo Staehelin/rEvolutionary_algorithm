@@ -2,9 +2,9 @@
 
 # Neural network architecture (based on tensorflow)
 
-INPUT_SIZE = 1
-HIDDEN_LAYERS = 1
-NODES_PER_LAYER = 3
+INPUT_SIZE = 147
+HIDDEN_LAYERS = 2
+NODES_PER_LAYER = 215
 OUTPUT_SIZE = 1
 ACTIVATION_HIDDEN = 'relu'
 ACTIVATION_OUTPUT = 'sigmoid'
@@ -17,29 +17,29 @@ STANDARD_PROBABILITY = 1 # Children get weights directly from their parents, alt
 
 # Mutation settings
 
-MUTATION_RATE = 0.011 # Probability that mutation will occur on any given weight
-MUTATION_RATE_BIAS = 0.021
+MUTATION_RATE = 0.0011 # Probability that mutation will occur on any given weight
+MUTATION_RATE_BIAS = 0.0011
 
 # Population settings
 
-POPULATION_SIZE = 21
+POPULATION_SIZE = 18
 
 # Selection criteria
 
-TO_NEXT_GEN_UNCHANGED = 5
-TO_NEXT_GEN_CROSSOVER = 11
+TO_NEXT_GEN_UNCHANGED = 3
+TO_NEXT_GEN_CROSSOVER = 10
 TO_NEXT_GEN_CROSSOVER_MEAN = 0
 TO_NEXT_GEN_NEW = 5
 
 # Generational settings
 
-GENERATIONS = 1000
+GENERATIONS = 2158
 SAVE_ALL_NEURAL_NETWORKS = False
 
 
 # Meta data config
 
-PROJECT_TITLE = "default"
+PROJECT_TITLE = "poker"
 META_DATA_FILENAME = f'{PROJECT_TITLE}_metadata.txt'
 
 
